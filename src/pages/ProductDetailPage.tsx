@@ -5,12 +5,14 @@ import {
   ArrowLeft,
   ArrowRight,
   Check,
+  Heart,
   LoaderCircle,
   ShoppingBag,
   Star
 } from 'lucide-react'
 import { fetchProductById } from '../api/products'
 import { useCartStore } from '../stores/cart'
+import { useFavoritesStore } from '../stores/favorites'
 import type { Product } from '../types'
 import { formatPrice, getCategoryLabel } from '../utils/format'
 
@@ -44,6 +46,8 @@ function ProductDetails({ product }: { product: Product }) {
   const [activeImage, setActiveImage] = useState(0)
   const [added, setAdded] = useState(false)
   const { addItem } = useCartStore()
+  const isFavorite = useFavoritesStore(state => state.ids.includes(product.id))
+  const toggleFavorite = useFavoritesStore(state => state.toggle)
   const images = product.images.length ? product.images : [product.thumbnail]
   const categoryLabel = getCategoryLabel(product.category)
   const dimensions = product.dimensions
@@ -137,6 +141,20 @@ function ProductDetails({ product }: { product: Product }) {
           >
             {added ? <Check size={17} /> : <ShoppingBag size={17} />}
             {added ? 'Tillagd i varukorgen' : 'Lägg i varukorg'}
+          </button>
+          <button
+            className={`detail-favorite-button ${isFavorite ? 'is-favorite' : ''}`}
+            type='button'
+            aria-pressed={isFavorite}
+            aria-label={`${isFavorite ? 'Ta bort' : 'Spara'} ${product.title} ${isFavorite ? 'från' : 'som'} favorit`}
+            onClick={() => toggleFavorite(product.id)}
+          >
+            <Heart
+              size={17}
+              strokeWidth={1.7}
+              fill={isFavorite ? 'currentColor' : 'none'}
+            />
+            {isFavorite ? 'Sparad som favorit' : 'Spara som favorit'}
           </button>
 
           {product.tags.length > 0 && (

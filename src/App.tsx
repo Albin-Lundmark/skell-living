@@ -6,23 +6,17 @@ import SiteHeader from './components/SiteHeader'
 import ProductDetailPage from './pages/ProductDetailPage'
 import ShopPage from './pages/ShopPage'
 import { useCartStore } from './stores/cart'
+import { useFavoritesStore } from './stores/favorites'
 import type { CategoryFilter } from './types'
 
 export default function App() {
   const [category, setCategory] = useState<CategoryFilter>('all')
   const [search, setSearch] = useState('')
   const [cartOpen, setCartOpen] = useState(false)
-  const [favoriteIds, setFavoriteIds] = useState<number[]>([])
+  const favoriteIds = useFavoritesStore(state => state.ids)
+  const toggleFavorite = useFavoritesStore(state => state.toggle)
   const { items } = useCartStore()
   const cartCount = items.reduce((sum, item) => sum + item.quantity, 0)
-
-  function toggleFavorite(id: number) {
-    setFavoriteIds(current =>
-      current.includes(id)
-        ? current.filter(favoriteId => favoriteId !== id)
-        : [...current, id]
-    )
-  }
 
   return (
     <div className='site-shell bg-(paper) text-(--ink)'>

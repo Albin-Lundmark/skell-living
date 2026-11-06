@@ -1265,6 +1265,33 @@ select:focus-visible {
   cursor: not-allowed;
 }
 
+.detail-favorite-button {
+  width: 100%;
+  min-height: 42px;
+  margin-top: 8px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  font-size: 11px;
+  cursor: pointer;
+  transition: border-color .2s, color .2s, background .2s;
+}
+
+.detail-favorite-button:hover,
+.detail-favorite-button.is-favorite {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.detail-favorite-button.is-favorite {
+  background: rgb(210 96 70 / 5%);
+}
+
 .detail-tags {
   margin-top: 15px;
   display: flex;
