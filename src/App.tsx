@@ -6,7 +6,7 @@ import SiteHeader from './components/SiteHeader'
 import ProductDetailPage from './pages/ProductDetailPage'
 import ShopPage from './pages/ShopPage'
 import { useCartStore } from './stores/cart'
-import { useFavoritesStore } from './stores/favorites'
+import { useFavoritesStore } from './stores/favorites.ts'
 import type { CategoryFilter } from './types'
 
 export default function App() {

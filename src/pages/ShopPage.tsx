@@ -64,6 +64,9 @@ export default function ShopPage({
   const normalizedSearch = search.trim().toLocaleLowerCase('sv-SE')
   const products = pageData?.products ?? []
   const pageCount = pageData?.pageCount ?? 1
+  const totalProducts = pageData?.total ?? 0
+  const rangeStart = totalProducts > 0 ? (page - 1) * PRODUCTS_PER_PAGE + 1 : 0
+  const rangeEnd = Math.min(page * PRODUCTS_PER_PAGE, totalProducts)
   const filteredProducts = useMemo(() => {
     const filtered = products.filter(
       product =>
@@ -129,7 +132,9 @@ export default function ShopPage({
                 ? 'Hämtar sortiment'
                 : normalizedSearch
                   ? `${filteredProducts.length} träffar på sidan`
-                  : `${filteredProducts.length} av ${pageData?.total ?? 0} produkter`}
+                  : totalProducts > 0
+                    ? `${rangeStart}–${rangeEnd} av ${totalProducts} produkter`
+                    : '0 av 0 produkter'}
             </span>
             <label className='sort-select'>
               <ArrowDownWideNarrow size={16} />
