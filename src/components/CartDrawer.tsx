@@ -82,7 +82,7 @@ export const CartDrawer = ({ onClose }: CartDrawerProps) => {
             </button>
           </div>
         ) : step === 'checkout' ? (
-          <form className='flex flex-1 flex-col' onSubmit={completeMockOrder}>
+          <form className='flex flex-1 flex-col' id='mock-checkout' onSubmit={completeMockOrder}>
             <div className='flex-1 space-y-6 overflow-auto px-6 py-5'>
               <button
                 className='inline-flex items-center gap-2 border-0 bg-transparent p-0 text-xs text-forest'
@@ -97,23 +97,23 @@ export const CartDrawer = ({ onClose }: CartDrawerProps) => {
                 <div className='grid grid-cols-2 gap-3'>
                   <label className='col-span-2 flex flex-col gap-1.5 text-xs text-[#59645d]'>
                     Namn
-                    <input className='min-h-10 border border-line bg-white px-3 text-xs text-ink outline-none focus:border-forest' autoComplete='name' name='name' required />
+                    <input className='min-h-10 border border-line bg-white px-3 text-xs text-ink outline-none focus:border-forest' autoComplete='name' id='checkout-name' name='name' required />
                   </label>
                   <label className='col-span-2 flex flex-col gap-1.5 text-xs text-[#59645d]'>
                     E-post
-                    <input className='min-h-10 border border-line bg-white px-3 text-xs text-ink outline-none focus:border-forest' autoComplete='email' name='email' type='email' required />
+                    <input className='min-h-10 border border-line bg-white px-3 text-xs text-ink outline-none focus:border-forest' autoComplete='email' id='checkout-email' name='email' type='email' required />
                   </label>
                   <label className='col-span-2 flex flex-col gap-1.5 text-xs text-[#59645d]'>
                     Adress
-                    <input className='min-h-10 border border-line bg-white px-3 text-xs text-ink outline-none focus:border-forest' autoComplete='street-address' name='address' required />
+                    <input className='min-h-10 border border-line bg-white px-3 text-xs text-ink outline-none focus:border-forest' autoComplete='street-address' id='checkout-address' name='address' required />
                   </label>
                   <label className='flex flex-col gap-1.5 text-xs text-[#59645d]'>
                     Postnummer
-                    <input className='min-h-10 border border-line bg-white px-3 text-xs text-ink outline-none focus:border-forest' autoComplete='postal-code' name='postalCode' required />
+                    <input className='min-h-10 border border-line bg-white px-3 text-xs text-ink outline-none focus:border-forest' autoComplete='postal-code' id='checkout-postal-code' name='postalCode' required />
                   </label>
                   <label className='flex flex-col gap-1.5 text-xs text-[#59645d]'>
                     Ort
-                    <input className='min-h-10 border border-line bg-white px-3 text-xs text-ink outline-none focus:border-forest' autoComplete='address-level2' name='city' required />
+                    <input className='min-h-10 border border-line bg-white px-3 text-xs text-ink outline-none focus:border-forest' autoComplete='address-level2' id='checkout-city' name='city' required />
                   </label>
                 </div>
               </section>
@@ -130,6 +130,7 @@ export const CartDrawer = ({ onClose }: CartDrawerProps) => {
                       <input
                         checked={paymentMethod === value}
                         className='accent-forest'
+                        id={`payment-${value}`}
                         name='paymentMethod'
                         onChange={() => setPaymentMethod(value)}
                         type='radio'
