@@ -6,6 +6,8 @@ En responsiv svensk butik för möbler och heminredning. Produktdata hämtas fr�
 
 Kräver Node.js 20 eller 22+.
 
+Kopiera `.env.example` till `.env` innan du startar projektet. Vite läser miljövariabler när utvecklingsservern startar.
+
 ```bash
 npm install
 npm run dev
@@ -19,3 +21,5 @@ Skapa en optimerad produktionsversion med `npm run build` och förhandsgranska d
 - Tailwind CSS v4 med gemensamma temafärger
 - TanStack Query för cachelagrad hämtning, avbrutna anrop, återförsök och laddnings-/felläge
 - Zustand med localStorage för en beständig varukorg
+
+`VITE_PRODUCTS_API_BASE_URL` konfigurerar produkt-API:ets basadress. Vite exponerar variabler med prefixet `VITE_` i klientkoden, så använd inte prefixet för hemligheter eller API-nycklar.
