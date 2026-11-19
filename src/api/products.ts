@@ -1,7 +1,13 @@
 import type { CategoryFilter, ProductResponse } from '../types'
 
-const API_URL = 'https://dummyjson.com/products/category'
-const PRODUCTS_API_URL = 'https://dummyjson.com/products'
+function getProductsApiBaseUrl(): string {
+  const baseUrl = import.meta.env.VITE_PRODUCTS_API_BASE_URL?.replace(/\/+$/, '')
+  if (!baseUrl) {
+    throw new Error('VITE_PRODUCTS_API_BASE_URL saknas. Lägg till den i .env och starta om utvecklingsservern.')
+  }
+  return baseUrl
+}
+
 const categories = ['furniture', 'home-decoration'] as const
 export const PRODUCTS_PER_PAGE = 6
 
@@ -21,7 +27,10 @@ async function fetchCategoryPage(
     limit: String(limit),
     skip: String(skip)
   })
-  const response = await fetch(`${API_URL}/${category}?${params}`, { signal })
+  const response = await fetch(
+    `${getProductsApiBaseUrl()}/products/category/${category}?${params}`,
+    { signal }
+  )
 
   if (!response.ok) {
     throw new Error(
@@ -87,7 +96,9 @@ export async function fetchProductById(
   id: number,
   signal?: AbortSignal
 ): Promise<ProductResponse['products'][number]> {
-  const response = await fetch(`${PRODUCTS_API_URL}/${id}`, { signal })
+  const response = await fetch(`${getProductsApiBaseUrl()}/products/${id}`, {
+    signal
+  })
 
   if (response.status === 404) {
     throw new Error('Produkten kunde inte hittas.')
