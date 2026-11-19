@@ -66,12 +66,12 @@ export const ProductCard = ({
           <span>{added ? 'Tillagd' : 'Lägg i varukorg'}</span>
         </button>
       </div>
-      <div className='flex justify-between gap-2 pt-2'>
-        <div>
-          <h3 className='m-0 max-w-47 overflow-hidden text-ellipsis whitespace-nowrap text-xs font-medium text-[#303e37] max-sm:max-w-32 max-sm:text-xs'>
+      <div className='flex min-w-0 justify-between gap-2 pt-2'>
+        <div className='min-w-0 flex-1'>
+          <h3 className='m-0 min-w-0 max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs font-medium text-[#303e37]'>
             <Link to={`/products/${product.id}`}>{product.title}</Link>
           </h3>
-          <p className='mt-1 max-w-46 overflow-hidden text-ellipsis whitespace-nowrap text-xs leading-normal text-[#838981] max-sm:max-w-32 max-sm:text-xs'>{product.description}</p>
+          <p className='mt-1 min-w-0 max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs leading-normal text-[#838981]'>{product.description}</p>
         </div>
         <span className='shrink-0 text-xs font-semibold text-ink max-sm:text-xs'>{formatPrice(product.price)}</span>
       </div>
