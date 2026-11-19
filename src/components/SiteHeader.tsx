@@ -64,15 +64,15 @@ export const SiteHeader = ({
         </Link>
         <nav className='flex h-full items-center justify-center gap-8 max-sm:absolute max-sm:left-0 max-sm:right-0 max-sm:top-24 max-sm:h-9 max-sm:justify-start max-sm:gap-6 max-sm:border-b max-sm:border-line max-sm:bg-paper max-sm:px-5' aria-label='Huvudmeny'>
           <Link
-            className={`relative flex h-full items-center text-xs text-[#68716b] transition-colors hover:text-ink ${location.pathname === '/' ? 'text-ink after:absolute after:bottom-5 after:left-0 after:right-0 after:h-0.5 after:bg-accent max-sm:after:bottom-0' : ''}`}
-            to='/#shop'
+            className={`relative flex h-full items-center text-xs transition-colors after:absolute after:bottom-5 after:left-0 after:right-0 after:h-0.5 after:bg-accent hover:text-ink max-sm:after:bottom-0 ${location.pathname === '/' || location.pathname.startsWith('/products/') ? 'text-ink' : 'text-[#68716b] after:hidden'}`}
+            to='/'
           >
             Shoppa
           </Link>
-          <Link className={`flex h-full items-center text-xs text-[#68716b] transition-colors hover:text-ink ${location.pathname === '/kundservice' ? 'text-ink' : ''}`} to='/kundservice'>
+          <Link className={`relative flex h-full items-center text-xs transition-colors after:absolute after:bottom-5 after:left-0 after:right-0 after:h-0.5 after:bg-accent hover:text-ink max-sm:after:bottom-0 ${location.pathname === '/kundservice' ? 'text-ink' : 'text-[#68716b] after:hidden'}`} to='/kundservice'>
             Kundservice
           </Link>
-          <Link className={`flex h-full items-center text-xs text-[#68716b] transition-colors hover:text-ink ${location.pathname === '/om-oss' ? 'text-ink' : ''}`} to='/om-oss'>
+          <Link className={`relative flex h-full items-center text-xs transition-colors after:absolute after:bottom-5 after:left-0 after:right-0 after:h-0.5 after:bg-accent hover:text-ink max-sm:after:bottom-0 ${location.pathname === '/om-oss' ? 'text-ink' : 'text-[#68716b] after:hidden'}`} to='/om-oss'>
             Om Oss
           </Link>
         </nav>
