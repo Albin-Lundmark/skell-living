@@ -7,7 +7,7 @@ interface CartDrawerProps {
   onClose: () => void
 }
 
-export default function CartDrawer({ onClose }: CartDrawerProps) {
+export const CartDrawer = ({ onClose }: CartDrawerProps) => {
   const [checkoutNotice, setCheckoutNotice] = useState(false)
   const { items, incrementItem, decrementItem, removeItem } = useCartStore()
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
