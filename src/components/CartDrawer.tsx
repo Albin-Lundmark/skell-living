@@ -15,24 +15,24 @@ export default function CartDrawer({ onClose }: CartDrawerProps) {
 
   return (
     <div
-      className='drawer-backdrop'
+      className='fixed inset-0 z-10 flex justify-end bg-[rgb(23_34_29/42%)] animate-fade-in'
       onMouseDown={event => event.target === event.currentTarget && onClose()}
     >
       <aside
-        className='cart-drawer'
+        className='flex h-full w-full max-w-md flex-col bg-paper shadow-xl animate-slide-in'
         role='dialog'
         aria-modal='true'
         aria-labelledby='cart-title'
       >
-        <header className='drawer-header'>
+        <header className='flex min-h-23 items-center justify-between border-b border-line px-6 py-5'>
           <div>
-            <span className='eyebrow'>DINA FAVORITER</span>
-            <h2 id='cart-title'>
-              Varukorg <span>({count})</span>
+            <span className='inline-flex items-center gap-2 text-xs font-semibold tracking-widest text-[#68766d]'>DINA FAVORITER</span>
+            <h2 className='mt-1 mb-0 font-serif text-2xl font-medium' id='cart-title'>
+              Varukorg <span className='font-sans text-xs text-[#838b83]'>({count})</span>
             </h2>
           </div>
           <button
-            className='icon-button'
+            className='grid size-9 place-items-center rounded-full border border-[#e6e3db] bg-paper transition-colors hover:border-accent hover:text-accent'
             type='button'
             onClick={onClose}
             aria-label='Stäng varukorgen'
@@ -41,24 +41,24 @@ export default function CartDrawer({ onClose }: CartDrawerProps) {
           </button>
         </header>
         {items.length === 0 ? (
-          <div className='empty-cart'>
-            <ShoppingBag size={34} strokeWidth={1.3} />
-            <h3>Här var det tomt.</h3>
-            <p>Hitta något som gör ditt hem lite mer du.</p>
-            <button className='text-link' type='button' onClick={onClose}>
+          <div className='flex flex-1 flex-col items-center justify-center p-7 text-center'>
+            <ShoppingBag className='text-accent' size={34} strokeWidth={1.3} />
+            <h3 className='mt-4 mb-1 font-serif text-2xl font-medium'>Här var det tomt.</h3>
+            <p className='mb-4 mt-0 text-xs text-[#7a817b]'>Hitta något som gör ditt hem lite mer du.</p>
+            <button className='inline-flex items-center gap-2 border-0 border-b border-current bg-transparent text-xs text-forest' type='button' onClick={onClose}>
               Till sortimentet <ArrowRight size={15} />
             </button>
           </div>
         ) : (
           <>
-            <div className='cart-items'>
+            <div className='flex-1 overflow-auto px-6'>
               {items.map(item => (
-                <article className='cart-item' key={item.id}>
-                  <img src={item.thumbnail} alt='' />
-                  <div className='cart-item-copy'>
-                    <h3>{item.title}</h3>
-                    <span>{formatPrice(item.price)}</span>
-                    <div className='quantity-control'>
+                <article className='relative flex gap-3 border-b border-line py-4' key={item.id}>
+                  <img className='h-21 w-20 bg-[#eceae3] object-cover' src={item.thumbnail} alt='' />
+                  <div className='min-w-0 flex-1'>
+                    <h3 className='mb-1 mr-5 mt-1 overflow-hidden text-ellipsis whitespace-nowrap text-xs font-medium'>{item.title}</h3>
+                    <span className='text-xs text-[#69736b]'>{formatPrice(item.price)}</span>
+                    <div className='mt-3 flex h-6 w-fit items-center border border-line'>
                       <button
                         type='button'
                         onClick={() => decrementItem(item.id)}
@@ -77,7 +77,7 @@ export default function CartDrawer({ onClose }: CartDrawerProps) {
                     </div>
                   </div>
                   <button
-                    className='remove-item'
+                    className='absolute right-0 top-4 grid size-7 place-items-center bg-transparent text-[#858b85]'
                     type='button'
                     onClick={() => removeItem(item.id)}
                     aria-label={`Ta bort ${item.title}`}
@@ -87,18 +87,18 @@ export default function CartDrawer({ onClose }: CartDrawerProps) {
                 </article>
               ))}
             </div>
-            <footer className='cart-footer'>
-              <div className='subtotal'>
+            <footer className='border-t border-line px-6 pb-6 pt-5'>
+              <div className='flex justify-between text-xs'>
                 <span>Delsumma</span>
                 <strong>{formatPrice(total)}</strong>
               </div>
-              <p role={checkoutNotice ? 'status' : undefined}>
+              <p className='mb-4 mt-2 text-xs text-[#838981]' role={checkoutNotice ? 'status' : undefined}>
                 {checkoutNotice
                   ? 'Kassan är inte ansluten i den här förhandsvisningen.'
                   : 'Frakt och eventuella skatter beräknas i kassan.'}
               </p>
               <button
-                className='checkout-button'
+                className='flex min-h-11 w-full items-center justify-between bg-forest px-4 text-xs text-white transition-colors hover:bg-accent'
                 type='button'
                 onClick={() => setCheckoutNotice(true)}
               >

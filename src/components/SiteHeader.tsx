@@ -7,18 +7,18 @@ import type { CategoryFilter } from '../types'
 import { formatPrice, getCategoryLabel } from '../utils/format'
 
 interface SiteHeaderProps {
+  onCategoryChange: (category: CategoryFilter) => void
   search: string
   cartCount: number
   onSearchChange: (value: string) => void
-  onCategoryChange: (category: CategoryFilter) => void
   onCartOpen: () => void
 }
 
 export default function SiteHeader({
   search,
   cartCount,
-  onSearchChange,
   onCategoryChange,
+  onSearchChange,
   onCartOpen
 }: SiteHeaderProps) {
   const location = useLocation()
@@ -57,31 +57,39 @@ export default function SiteHeader({
 
   return (
     <>
-      <div className='announcement-bar'>
-        <Sparkles size={13} /> Små saker. Stor skillnad.{' '}
-        <span>Upptäck säsongens favoriter</span>
+      <div className='flex min-h-8 items-center justify-center gap-2 bg-forest px-5 py-2 text-xs tracking-wide text-[#f7f5eb] max-sm:min-h-8 max-sm:text-xs'>
+        <Sparkles className='text-[#e8ab77]' size={13} /> Små saker. Stor skillnad.{' '}
+        <span className='ml-1 text-[#c9d1c9] max-sm:hidden'>Upptäck säsongens favoriter</span>
       </div>
-      <header className='site-header'>
-        <Link className='wordmark' to='/' aria-label='Skell Living startsida'>
-          skell<span>.</span>
+      <header className='grid h-19 grid-cols-3 items-center border-b border-line px-6 lg:px-16 max-lg:px-7 max-sm:flex max-sm:justify-between max-sm:h-15 max-sm:px-4'>
+        <Link className='w-fit text-3xl font-bold leading-none tracking-tighter max-sm:text-3xl' to='/' aria-label='Skell Living startsida'>
+          skell<span className='text-accent'>.</span>
         </Link>
-        <nav className='main-nav' aria-label='Huvudmeny'>
+        <nav className='flex h-full items-center justify-center gap-8 max-sm:absolute max-sm:left-0 max-sm:right-0 max-sm:top-24 max-sm:h-9 max-sm:justify-start max-sm:gap-6 max-sm:border-b max-sm:border-line max-sm:bg-paper max-sm:px-5' aria-label='Huvudmeny'>
           <Link
-            className={location.pathname === '/' ? 'active' : ''}
+            className={`relative flex h-full items-center text-xs text-[#68716b] transition-colors hover:text-ink ${location.pathname === '/' ? 'text-ink after:absolute after:bottom-5 after:left-0 after:right-0 after:h-0.5 after:bg-accent max-sm:after:bottom-0' : ''}`}
             to='/#shop'
           >
             Shoppa
           </Link>
-          <Link to='/#shop' onClick={() => onCategoryChange('furniture')}>
-            Möbler
+          <Link
+            className={`flex h-full items-center text-xs text-[#68716b] transition-colors hover:text-ink ${category === 'furniture' ? 'text-ink' : ''}`}
+            to='/#shop'
+            onClick={() => onCategoryChange('furniture')}
+          >
+            M?bler
           </Link>
-          <Link to='/#shop' onClick={() => onCategoryChange('home-decoration')}>
+          <Link
+            className={`flex h-full items-center text-xs text-[#68716b] transition-colors hover:text-ink ${category === 'home-decoration' ? 'text-ink' : ''}`}
+            to='/#shop'
+            onClick={() => onCategoryChange('home-decoration')}
+          >
             Inredning
           </Link>
         </nav>
-        <div className='header-actions'>
+        <div className='flex items-center justify-end gap-5 max-sm:gap-3'>
           <div
-            className='search-container'
+            className='relative'
             onBlur={event => {
               if (
                 !event.currentTarget.contains(
@@ -93,14 +101,14 @@ export default function SiteHeader({
             }}
           >
             <form
-              className='header-search'
+              className='group/header-search flex h-9 w-35 items-center gap-2 border-b border-line text-[#59645d] transition-[width] duration-200 max-sm:h-8 max-sm:w-8 max-sm:justify-center max-sm:border-0 max-sm:focus-within:w-36 max-sm:focus-within:border-b max-sm:focus-within:border-line'
               onSubmit={event => {
                 event.preventDefault()
                 openFirstSuggestion()
               }}
             >
               <button
-                className='search-submit'
+                className='grid shrink-0 place-items-center border-0 bg-transparent p-0 text-inherit'
                 type='submit'
                 aria-label='Öppna första sökförslaget'
                 title='Öppna första sökförslaget'
@@ -108,6 +116,7 @@ export default function SiteHeader({
                 <Search size={17} strokeWidth={1.7} />
               </button>
               <input
+                className='w-full border-0 bg-transparent text-xs text-ink outline-none placeholder:text-[#858b85] max-sm:min-w-0 max-sm:flex-1 max-sm:bg-paper max-sm:opacity-0 max-sm:group-focus-within/header-search:opacity-100'
                 aria-label='Sök produkter'
                 aria-expanded={searchOpen && normalizedSearch.length >= 2}
                 aria-controls='product-suggestions'
@@ -125,36 +134,36 @@ export default function SiteHeader({
             </form>
             {searchOpen && normalizedSearch.length >= 2 && (
               <div
-                className='search-suggestions'
+                className='absolute right-0 top-full z-20 mt-3 max-h-112 w-80 overflow-auto border border-line bg-paper shadow-lg max-sm:fixed max-sm:left-4 max-sm:right-4 max-sm:top-52 max-sm:mt-0 max-sm:max-h-dvh max-sm:w-auto'
                 id='product-suggestions'
                 role='region'
                 aria-label='Sökförslag'
                 aria-live='polite'
               >
-                <p className='search-suggestions-heading'>
+                <p className='m-0 border-b border-line px-3 pb-2 pt-3 text-xs tracking-widest text-[#7a817b]'>
                   FÖRSLAG I SORTIMENTET
                 </p>
                 {isCatalogPending ? (
-                  <p className='search-suggestions-message' role='status'>
-                    <LoaderCircle className='spin' size={15} /> Söker i
+                  <p className='m-0 flex min-h-14 items-center gap-2 p-3 text-xs text-muted' role='status'>
+                    <LoaderCircle className='animate-spin' size={15} /> Söker i
                     sortimentet
                   </p>
                 ) : isCatalogError ? (
                   <button
-                    className='search-suggestions-message search-retry'
+                    className='flex min-h-14 w-full items-center border-0 bg-transparent p-3 text-left text-xs text-muted'
                     type='button'
                     onClick={() => refetchCatalog()}
                   >
                     Kunde inte hämta förslag. Försök igen.
                   </button>
                 ) : suggestions.length === 0 ? (
-                  <p className='search-suggestions-message'>
+                  <p className='m-0 flex min-h-14 items-center gap-2 p-3 text-xs text-muted'>
                     Inga matchande produkter.
                   </p>
                 ) : (
                   suggestions.map(product => (
                     <Link
-                      className='search-suggestion'
+                      className='flex min-h-17 items-center gap-2 border-b border-line px-3 py-2 transition-colors last:border-0 hover:bg-[#eeece5] focus-visible:bg-[#eeece5]'
                       key={product.id}
                       to={`/products/${product.id}`}
                       onClick={() => {
@@ -162,12 +171,12 @@ export default function SiteHeader({
                         setSearchOpen(false)
                       }}
                     >
-                      <img src={product.thumbnail} alt='' />
-                      <span className='search-suggestion-copy'>
-                        <strong>{product.title}</strong>
-                        <small>{getCategoryLabel(product.category)}</small>
+                      <img className='size-12 bg-[#eceae3] object-cover' src={product.thumbnail} alt='' />
+                      <span className='flex min-w-0 flex-1 flex-col gap-1'>
+                        <strong className='overflow-hidden text-ellipsis whitespace-nowrap text-xs font-medium text-ink'>{product.title}</strong>
+                        <small className='text-xs text-muted'>{getCategoryLabel(product.category)}</small>
                       </span>
-                      <span className='search-suggestion-price'>
+                      <span className='text-xs font-semibold text-ink'>
                         {formatPrice(product.price)}
                       </span>
                     </Link>
@@ -177,14 +186,14 @@ export default function SiteHeader({
             )}
           </div>
           <button
-            className='cart-button'
+            className='flex cursor-pointer items-center gap-2 border-0 bg-transparent py-2 text-xs max-sm:gap-1'
             type='button'
             onClick={onCartOpen}
             aria-label={`Öppna varukorgen, ${cartCount} produkter`}
           >
             <ShoppingBag size={19} strokeWidth={1.7} />
-            <span className='cart-label'>Varukorg</span>
-            <span className='cart-count'>{cartCount}</span>
+            <span className='max-sm:hidden'>Varukorg</span>
+            <span className='grid size-5 min-w-5 place-items-center rounded-full bg-accent px-1 text-xs text-white'>{cartCount}</span>
           </button>
         </div>
       </header>
