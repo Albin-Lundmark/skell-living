@@ -11,12 +11,12 @@ interface ProductCardProps {
   onToggleFavorite: (id: number) => void
 }
 
-export default function ProductCard({
+export const ProductCard = ({
   product,
   isFavorite,
   onAdd,
   onToggleFavorite
-}: ProductCardProps) {
+}: ProductCardProps) => {
   const [added, setAdded] = useState(false)
   const image = product.thumbnail || product.images[0]
 

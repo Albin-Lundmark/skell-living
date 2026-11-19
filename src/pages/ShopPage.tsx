@@ -9,8 +9,8 @@ import {
   Search
 } from 'lucide-react'
 import { fetchProductsPage, PRODUCTS_PER_PAGE } from '../api/products'
-import HeroCarousel from '../components/HeroCarousel'
-import ProductCard from '../components/ProductCard'
+import { HeroCarousel } from '../components/HeroCarousel'
+import { ProductCard } from '../components/ProductCard'
 import { useCartStore } from '../stores/cart'
 import type { CategoryFilter } from '../types'
 
@@ -38,14 +38,14 @@ interface ShopPageProps {
   onToggleFavorite: (id: number) => void
 }
 
-export default function ShopPage({
+export const ShopPage = ({
   category,
   search,
   favoriteIds,
   onCategoryChange,
   onSearchChange,
   onToggleFavorite
-}: ShopPageProps) {
+}: ShopPageProps) => {
   const [sort, setSort] = useState<SortOrder>('featured')
   const [page, setPage] = useState(1)
   const { addItem } = useCartStore()

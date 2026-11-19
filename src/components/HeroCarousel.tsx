@@ -6,7 +6,7 @@ interface HeroCarouselProps {
   product?: Product
 }
 
-export default function HeroCarousel({ product }: HeroCarouselProps) {
+export const HeroCarousel = ({ product }: HeroCarouselProps) => {
   const [activeIndex, setActiveIndex] = useState(0)
   const images = product?.images.length
     ? product.images

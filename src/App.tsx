@@ -1,15 +1,17 @@
 import { useState } from 'react'
 import { ArrowRight, ChevronUp } from 'lucide-react'
 import { Link, Route, Routes } from 'react-router-dom'
-import CartDrawer from './components/CartDrawer'
-import SiteHeader from './components/SiteHeader'
-import ProductDetailPage from './pages/ProductDetailPage'
-import ShopPage from './pages/ShopPage'
+import { CartDrawer } from './components/CartDrawer'
+import { SiteHeader } from './components/SiteHeader'
+import { AboutPage } from './pages/AboutPage'
+import { CustomerServicePage } from './pages/CustomerServicePage'
+import { ProductDetailPage } from './pages/ProductDetailPage'
+import { ShopPage } from './pages/ShopPage'
 import { useCartStore } from './stores/cart'
 import { useFavoritesStore } from './stores/favorites.ts'
 import type { CategoryFilter } from './types'
 
-export default function App() {
+export const App = () => {
   const [category, setCategory] = useState<CategoryFilter>('all')
   const [search, setSearch] = useState('')
   const [cartOpen, setCartOpen] = useState(false)
@@ -23,7 +25,6 @@ export default function App() {
       <SiteHeader
         search={search}
         cartCount={cartCount}
-        onCategoryChange={setCategory}
         onSearchChange={setSearch}
         onCartOpen={() => setCartOpen(true)}
       />
@@ -42,6 +43,8 @@ export default function App() {
               />
             }
           />
+          <Route path='/kundservice' element={<CustomerServicePage />} />
+          <Route path='/om-oss' element={<AboutPage />} />
           <Route path='/products/:productId' element={<ProductDetailPage />} />
           <Route
             path='*'

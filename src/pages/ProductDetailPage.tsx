@@ -221,7 +221,7 @@ const ProductDetails = ({ product }: { product: Product }) => {
   )
 }
 
-export default function ProductDetailPage() {
+export const ProductDetailPage = () => {
   const { productId = '' } = useParams()
   const id = Number(productId)
   const validId = Number.isSafeInteger(id) && id > 0

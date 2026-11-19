@@ -3,24 +3,21 @@ import { useQuery } from '@tanstack/react-query'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { LoaderCircle, Search, ShoppingBag, Sparkles } from 'lucide-react'
 import { fetchProductCatalog } from '../api/products'
-import type { CategoryFilter } from '../types'
 import { formatPrice, getCategoryLabel } from '../utils/format'
 
 interface SiteHeaderProps {
-  onCategoryChange: (category: CategoryFilter) => void
   search: string
   cartCount: number
   onSearchChange: (value: string) => void
   onCartOpen: () => void
 }
 
-export default function SiteHeader({
+export const SiteHeader = ({
   search,
   cartCount,
-  onCategoryChange,
   onSearchChange,
   onCartOpen
-}: SiteHeaderProps) {
+}: SiteHeaderProps) => {
   const location = useLocation()
   const navigate = useNavigate()
   const [searchOpen, setSearchOpen] = useState(false)
@@ -72,19 +69,11 @@ export default function SiteHeader({
           >
             Shoppa
           </Link>
-          <Link
-            className={`flex h-full items-center text-xs text-[#68716b] transition-colors hover:text-ink ${category === 'furniture' ? 'text-ink' : ''}`}
-            to='/#shop'
-            onClick={() => onCategoryChange('furniture')}
-          >
-            M?bler
+          <Link className={`flex h-full items-center text-xs text-[#68716b] transition-colors hover:text-ink ${location.pathname === '/kundservice' ? 'text-ink' : ''}`} to='/kundservice'>
+            Kundservice
           </Link>
-          <Link
-            className={`flex h-full items-center text-xs text-[#68716b] transition-colors hover:text-ink ${category === 'home-decoration' ? 'text-ink' : ''}`}
-            to='/#shop'
-            onClick={() => onCategoryChange('home-decoration')}
-          >
-            Inredning
+          <Link className={`flex h-full items-center text-xs text-[#68716b] transition-colors hover:text-ink ${location.pathname === '/om-oss' ? 'text-ink' : ''}`} to='/om-oss'>
+            Om Oss
           </Link>
         </nav>
         <div className='flex items-center justify-end gap-5 max-sm:gap-3'>
