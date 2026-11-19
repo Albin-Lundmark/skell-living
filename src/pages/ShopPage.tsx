@@ -140,6 +140,8 @@ export const ShopPage = ({
               <ArrowDownWideNarrow size={16} />
               <select
                 className='max-w-36 appearance-none border-0 bg-transparent py-2 text-xs text-ink outline-none'
+                id='product-sort'
+                name='sort'
                 aria-label='Sortera produkter'
                 value={sort}
                 onChange={event => {

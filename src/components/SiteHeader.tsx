@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { LoaderCircle, Search, ShoppingBag, Sparkles } from 'lucide-react'
@@ -20,6 +20,7 @@ export const SiteHeader = ({
 }: SiteHeaderProps) => {
   const location = useLocation()
   const navigate = useNavigate()
+  const searchInputRef = useRef<HTMLInputElement>(null)
   const [searchOpen, setSearchOpen] = useState(false)
   const normalizedSearch = search.trim().toLocaleLowerCase('sv-SE')
   const {
@@ -90,7 +91,8 @@ export const SiteHeader = ({
             }}
           >
             <form
-              className='group/header-search flex h-9 w-35 items-center gap-2 border-b border-line text-[#59645d] transition-[width] duration-200 max-sm:h-8 max-sm:w-8 max-sm:justify-center max-sm:border-0 max-sm:focus-within:w-36 max-sm:focus-within:border-b max-sm:focus-within:border-line'
+              className={`group/header-search flex h-9 w-35 items-center gap-2 border-b border-line text-[#59645d] transition-[width] duration-200 max-sm:h-8 max-sm:border-0 ${searchOpen ? 'max-sm:w-36 max-sm:justify-start max-sm:border-b max-sm:border-line' : 'max-sm:w-8 max-sm:justify-center'}`}
+              id='product-search-form'
               onSubmit={event => {
                 event.preventDefault()
                 openFirstSuggestion()
@@ -98,14 +100,28 @@ export const SiteHeader = ({
             >
               <button
                 className='grid shrink-0 place-items-center border-0 bg-transparent p-0 text-inherit'
-                type='submit'
-                aria-label='Öppna första sökförslaget'
-                title='Öppna första sökförslaget'
+                type='button'
+                aria-label='Sök produkter'
+                title='Sök produkter'
+                onClick={() => {
+                  if (
+                    window.matchMedia('(max-width: 639px)').matches &&
+                    !searchOpen
+                  ) {
+                    setSearchOpen(true)
+                    searchInputRef.current?.focus()
+                    return
+                  }
+                  searchInputRef.current?.form?.requestSubmit()
+                }}
               >
-                <Search size={17} strokeWidth={1.7} />
+                <Search size={20} strokeWidth={1.7} />
               </button>
               <input
-                className='w-full border-0 bg-transparent text-xs text-ink outline-none placeholder:text-[#858b85] max-sm:min-w-0 max-sm:flex-1 max-sm:bg-paper max-sm:opacity-0 max-sm:group-focus-within/header-search:opacity-100'
+                className={`w-full border-0 bg-transparent text-xs text-ink outline-none placeholder:text-[#858b85] max-sm:min-w-0 max-sm:flex-1 max-sm:bg-paper ${searchOpen ? 'max-sm:opacity-100' : 'max-sm:opacity-0'}`}
+                id='product-search'
+                name='search'
+                ref={searchInputRef}
                 aria-label='Sök produkter'
                 aria-expanded={searchOpen && normalizedSearch.length >= 2}
                 aria-controls='product-suggestions'
