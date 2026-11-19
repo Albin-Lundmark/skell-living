@@ -59,11 +59,11 @@ export const SiteHeader = ({
         <Sparkles className='text-[#e8ab77]' size={13} /> Små saker. Stor skillnad.{' '}
         <span className='ml-1 text-[#c9d1c9] max-sm:hidden'>Upptäck säsongens favoriter</span>
       </div>
-      <header className='grid h-19 grid-cols-3 items-center border-b border-line px-6 lg:px-16 max-lg:px-7 max-sm:flex max-sm:justify-between max-sm:h-15 max-sm:px-4'>
+      <header className='relative z-20 grid h-19 grid-cols-3 items-center border-b border-line px-6 lg:px-16 max-lg:px-7 max-sm:flex max-sm:justify-between max-sm:h-15 max-sm:px-4'>
         <Link className='w-fit text-3xl font-bold leading-none tracking-tighter max-sm:text-3xl' to='/' aria-label='Skell Living startsida'>
           skell<span className='text-accent'>.</span>
         </Link>
-        <nav className='flex h-full items-center justify-center gap-8 max-sm:absolute max-sm:left-0 max-sm:right-0 max-sm:top-24 max-sm:h-9 max-sm:justify-start max-sm:gap-6 max-sm:border-b max-sm:border-line max-sm:bg-paper max-sm:px-5' aria-label='Huvudmeny'>
+        <nav className='flex h-full items-center justify-center gap-8 max-sm:absolute max-sm:left-0 max-sm:right-0 max-sm:top-full max-sm:h-9 max-sm:justify-start max-sm:gap-6 max-sm:border-b max-sm:border-line max-sm:bg-paper max-sm:px-5' aria-label='Huvudmeny'>
           <Link
             className={`relative flex h-full items-center text-xs transition-colors after:absolute after:bottom-5 after:left-0 after:right-0 after:h-0.5 after:bg-accent hover:text-ink max-sm:after:bottom-0 ${location.pathname === '/' || location.pathname.startsWith('/products/') ? 'text-ink' : 'text-[#68716b] after:hidden'}`}
             to='/'
