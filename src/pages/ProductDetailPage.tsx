@@ -16,7 +16,7 @@ import { useFavoritesStore } from '../stores/favorites'
 import type { Product } from '../types'
 import { formatPrice, getCategoryLabel } from '../utils/format'
 
-function ProductState({
+const ProductState = ({
   title,
   message,
   retry
@@ -24,25 +24,25 @@ function ProductState({
   title: string
   message: string
   retry?: () => void
-}) {
+}) => {
   return (
-    <section className='product-state' role={retry ? 'alert' : undefined}>
-      <span className='eyebrow'>SKELL LIVING</span>
-      <h1>{title}</h1>
-      <p>{message}</p>
+    <section className='flex min-h-95 flex-col items-center justify-center px-5 py-12 text-center max-sm:min-h-75' role={retry ? 'alert' : undefined}>
+      <span className='inline-flex items-center gap-2 text-xs font-semibold tracking-widest text-[#68766d]'>SKELL LIVING</span>
+      <h1 className='my-3 font-serif text-3xl font-medium'>{title}</h1>
+      <p className='mb-4 mt-0 text-xs text-muted'>{message}</p>
       {retry && (
-        <button className='detail-retry' type='button' onClick={retry}>
+        <button className='inline-flex items-center gap-2 bg-forest px-3 py-2 text-xs text-white' type='button' onClick={retry}>
           Försök igen <ArrowRight size={16} />
         </button>
       )}
-      <Link className='text-link' to='/'>
+      <Link className='mt-3 inline-flex items-center gap-2 border-0 border-b border-current bg-transparent text-xs text-forest' to='/'>
         <ArrowLeft size={15} /> Till sortimentet
       </Link>
     </section>
   )
 }
 
-function ProductDetails({ product }: { product: Product }) {
+const ProductDetails = ({ product }: { product: Product }) => {
   const [activeImage, setActiveImage] = useState(0)
   const [added, setAdded] = useState(false)
   const { addItem } = useCartStore()
@@ -76,65 +76,65 @@ function ProductDetails({ product }: { product: Product }) {
   }
 
   return (
-    <article className='product-detail-page'>
-      <nav className='product-breadcrumbs' aria-label='Brödsmulor'>
+    <article className='mx-auto max-w-screen-2xl animate-rise-in-fast px-6 lg:px-16 pb-18 pt-6 max-lg:px-7 max-sm:px-4 max-sm:pb-12 max-sm:pt-14'>
+      <nav className='mb-6 flex items-center gap-2 text-xs text-[#899087] max-sm:mb-4 max-sm:text-xs' aria-label='Brödsmulor'>
         <Link to='/'>Sortiment</Link>
         <span aria-hidden='true'>/</span>
         <Link to={`/?category=${product.category}#shop`}>{categoryLabel}</Link>
         <span aria-hidden='true'>/</span>
-        <span aria-current='page'>{product.title}</span>
+        <span className='overflow-hidden text-ellipsis whitespace-nowrap text-ink' aria-current='page'>{product.title}</span>
       </nav>
 
-      <div className='product-detail-layout'>
-        <div className='detail-gallery'>
-          <div className='detail-main-image'>
-            <img src={images[activeImage]} alt={product.title} />
+      <div className='grid grid-cols-2 items-start gap-12 lg:gap-16 max-lg:grid-cols-2 max-lg:gap-7 max-sm:grid-cols-1 max-sm:gap-5'>
+        <div className='min-w-0'>
+          <div className='aspect-square overflow-hidden bg-[#eceae3] max-sm:aspect-square'>
+            <img className='h-full w-full object-contain mix-blend-multiply' src={images[activeImage]} alt={product.title} />
           </div>
           {images.length > 1 && (
-            <div className='detail-thumbnails' aria-label='Produktbilder'>
+            <div className='mt-3 flex gap-2 overflow-x-auto' aria-label='Produktbilder'>
               {images.map((image, index) => (
                 <button
                   key={`${image}-${index}`}
-                  className={activeImage === index ? 'selected' : ''}
+                  className={`h-17 w-17 shrink-0 border bg-[#eceae3] p-1 ${activeImage === index ? 'border-forest' : 'border-line'}`}
                   type='button'
                   aria-label={`Visa bild ${index + 1}`}
                   aria-pressed={activeImage === index}
                   onClick={() => setActiveImage(index)}
                 >
-                  <img src={image} alt='' />
+                  <img className='h-full w-full object-contain mix-blend-multiply' src={image} alt='' />
                 </button>
               ))}
             </div>
           )}
         </div>
 
-        <div className='product-detail-copy'>
-          <span className='eyebrow'>
-            <span className='eyebrow-dot' /> {categoryLabel.toUpperCase()}
+        <div className='pt-3 max-sm:pt-0'>
+          <span className='inline-flex items-center gap-2 text-xs font-semibold tracking-widest text-[#68766d]'>
+            <span className='size-1 rounded-full bg-accent' /> {categoryLabel.toUpperCase()}
           </span>
-          <h1>{product.title}</h1>
-          <div className='detail-rating'>
+          <h1 className='my-4 mb-3 font-serif text-4xl font-medium leading-tight max-sm:mt-3 max-sm:text-4xl'>{product.title}</h1>
+          <div className='flex items-center gap-1 text-xs text-[#b4773d]'>
             <Star size={15} fill='currentColor' />
             <span>{product.rating.toFixed(1)}</span>
-            <span className='detail-rating-count'>
+            <span className='ml-1 text-muted'>
               {product.reviews?.length ?? 0} omdömen
             </span>
           </div>
-          <div className='detail-price-row'>
+          <div className='mt-5 flex items-baseline gap-3'>
             <strong>{formatPrice(product.price)}</strong>
             {product.discountPercentage > 0 && (
-              <span>{Math.round(product.discountPercentage)}% rabatt</span>
+              <span className='text-xs text-accent'>{Math.round(product.discountPercentage)}% rabatt</span>
             )}
           </div>
-          <p className='detail-description'>{product.description}</p>
-          <p className='detail-stock'>
-            <span className={product.stock > 0 ? 'in-stock' : 'out-of-stock'} />
+          <p className='my-4 text-xs leading-relaxed text-[#69736b]'>{product.description}</p>
+          <p className='my-4 flex items-center gap-2 text-xs text-[#647068]'>
+            <span className={`size-2 rounded-full ${product.stock > 0 ? 'bg-[#56805b]' : 'bg-accent'}`} />
             {product.stock > 0
               ? `${product.stock} i lager`
               : 'Tillfälligt slut'}
           </p>
           <button
-            className='detail-add-button'
+            className='flex min-h-12 w-full items-center justify-center gap-2 bg-forest px-4 text-xs text-white transition-colors hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50'
             type='button'
             onClick={addToCart}
             disabled={product.stock <= 0}
@@ -143,7 +143,7 @@ function ProductDetails({ product }: { product: Product }) {
             {added ? 'Tillagd i varukorgen' : 'Lägg i varukorg'}
           </button>
           <button
-            className={`detail-favorite-button ${isFavorite ? 'is-favorite' : ''}`}
+            className={`mt-2 flex min-h-10 w-full items-center justify-center gap-2 border px-4 text-xs transition-colors hover:border-accent hover:text-accent ${isFavorite ? 'border-accent bg-accent/5 text-accent' : 'border-line bg-transparent text-ink'}`}
             type='button'
             aria-pressed={isFavorite}
             aria-label={`${isFavorite ? 'Ta bort' : 'Spara'} ${product.title} ${isFavorite ? 'från' : 'som'} favorit`}
@@ -158,19 +158,19 @@ function ProductDetails({ product }: { product: Product }) {
           </button>
 
           {product.tags.length > 0 && (
-            <div className='detail-tags' aria-label='Produktetiketter'>
+            <div className='mt-4 flex flex-wrap gap-1' aria-label='Produktetiketter'>
               {product.tags.map(tag => (
-                <span key={tag}>{tag}</span>
+                <span className='bg-[#eceae3] px-2 py-1 text-xs text-[#69736b]' key={tag}>{tag}</span>
               ))}
             </div>
           )}
 
           {specifications.length > 0 && (
-            <dl className='product-specifications'>
+            <dl className='mt-5 grid grid-cols-2 gap-x-4'>
               {specifications.map(specification => (
-                <div key={specification.label}>
-                  <dt>{specification.label}</dt>
-                  <dd>{specification.value}</dd>
+                <div className='min-w-0 border-t border-line py-2' key={specification.label}>
+                  <dt className='mb-1 text-xs text-[#879087]'>{specification.label}</dt>
+                  <dd className='m-0 wrap-anywhere text-xs leading-normal text-ink'>{specification.value}</dd>
                 </div>
               ))}
             </dl>
@@ -179,22 +179,22 @@ function ProductDetails({ product }: { product: Product }) {
       </div>
 
       {product.reviews && product.reviews.length > 0 && (
-        <section className='product-reviews' aria-labelledby='reviews-title'>
-          <div className='reviews-heading'>
+        <section className='mt-14 border-t border-line pt-6 max-sm:mt-9' aria-labelledby='reviews-title'>
+          <div className='mb-4 flex items-end justify-between'>
             <div>
-              <span className='eyebrow'>ERFARENHETER</span>
-              <h2 id='reviews-title'>Omdömen</h2>
+              <span className='inline-flex items-center gap-2 text-xs font-semibold tracking-widest text-[#68766d]'>ERFARENHETER</span>
+              <h2 className='mt-1 mb-0 font-serif text-3xl font-medium' id='reviews-title'>Omdömen</h2>
             </div>
-            <span>{product.reviews.length} omdömen</span>
+            <span className='text-xs text-muted'>{product.reviews.length} omdömen</span>
           </div>
-          <div className='review-list'>
+          <div className='grid grid-cols-3 gap-5 max-lg:grid-cols-2 max-sm:grid-cols-1 max-sm:gap-2'>
             {product.reviews.map((review, index) => (
               <article
-                className='product-review'
+                className='min-w-0 border-t border-line py-3'
                 key={`${review.date}-${index}`}
               >
                 <div
-                  className='review-rating'
+                  className='flex gap-0 text-[#b4773d]'
                   aria-label={`${review.rating} av 5 stjärnor`}
                 >
                   {Array.from({ length: 5 }, (_, star) => (
@@ -205,8 +205,8 @@ function ProductDetails({ product }: { product: Product }) {
                     />
                   ))}
                 </div>
-                <p>{review.comment}</p>
-                <span>
+                <p className='my-2 font-serif text-sm leading-normal text-[#59645d]'>{review.comment}</p>
+                <span className='text-xs text-[#899087]'>
                   {review.reviewerName} ·{' '}
                   {new Intl.DateTimeFormat('sv-SE', {
                     dateStyle: 'medium'
@@ -249,9 +249,9 @@ export default function ProductDetailPage() {
 
   if (isPending) {
     return (
-      <div className='product-state' role='status'>
-        <LoaderCircle className='spin' size={22} />
-        <p>Hämtar produktinformation</p>
+      <div className='flex min-h-95 flex-col items-center justify-center px-5 py-12 text-center max-sm:min-h-75' role='status'>
+        <LoaderCircle className='animate-spin' size={22} />
+        <p className='mb-4 mt-0 text-xs text-muted'>Hämtar produktinformation</p>
       </div>
     )
   }
